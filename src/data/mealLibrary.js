@@ -2,7 +2,9 @@ export const CONDITION_PRESETS = [
   {
     id: 'diabetic',
     label: 'Diabetic Friendly (Low GI & Fiber Focus)',
-    description: 'Stabilizes postprandial glucose, low glycemic load, high soluble fiber, timed carbs.',
+    tag: 'Glycemic Control',
+    icon: 'Activity',
+    description: 'Stabilizes postprandial glucose, low glycemic load, high soluble fiber, timed complex carbs.',
     defaultTargetCalories: 1450,
     defaultProteinG: 20,
     defaultCarbsG: 155,
@@ -11,7 +13,9 @@ export const CONDITION_PRESETS = [
   },
   {
     id: 'cholesterol',
-    label: 'Cardio-Protective (Low LDL Cholesterol & Sodium)',
+    label: 'Cardio-Protective (Low LDL & Sodium)',
+    tag: 'Heart Care',
+    icon: 'Heart',
     description: 'Low saturated fat (<7% calories), rich in plant sterols, omega-3, garlic and soluble oats/fiber.',
     defaultTargetCalories: 1500,
     defaultProteinG: 22,
@@ -21,7 +25,9 @@ export const CONDITION_PRESETS = [
   },
   {
     id: 'weight_loss',
-    label: 'Weight Loss & High Protein (Fat Reduction)',
+    label: 'Weight Loss & High Protein (Fat Loss)',
+    tag: 'Fat Loss',
+    icon: 'Flame',
     description: 'Calorie deficit with elevated protein to preserve lean muscle, enhance satiety, and stimulate metabolism.',
     defaultTargetCalories: 1600,
     defaultProteinG: 25,
@@ -32,6 +38,8 @@ export const CONDITION_PRESETS = [
   {
     id: 'pcod',
     label: 'PCOD / PCOS & Insulin Resistance',
+    tag: 'Hormonal Balance',
+    icon: 'Sparkles',
     description: 'Anti-inflammatory, balances androgen levels, low inflammatory dairy/gluten, complex whole grains.',
     defaultTargetCalories: 1550,
     defaultProteinG: 22,
@@ -45,21 +53,25 @@ export const CUISINE_PRESETS = [
   {
     id: 'north_indian',
     label: 'North Indian Home-Style',
+    regionTag: 'Delhi & Punjab',
     staples: 'Roti (multigrain/jowar), yellow & black dals, seasonal subzi, curd, paneer, besan.',
   },
   {
     id: 'south_indian',
     label: 'South Indian Traditional',
+    regionTag: 'Kerala & Tamil Nadu',
     staples: 'Steamed idli/dosa variants (ragi/oats), sambar with drumsticks, rasam, thoran, curd.',
   },
   {
     id: 'pan_indian',
     label: 'Pan-Indian Balanced',
+    regionTag: 'Multi-Regional Home',
     staples: 'Khichdi, dal-chawal (portion-controlled), poha, daliya, sprouted chaat.',
   },
   {
     id: 'eggetarian',
     label: 'Indian Eggetarian / High Protein',
+    regionTag: 'Protein Enriched',
     staples: 'Boiled eggs, egg white bhurji, soya chunks, tofu, chana, paneer.',
   }
 ];
@@ -71,6 +83,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'breakfast',
       title: 'Breakfast (8:30 AM)',
       dish: 'Moong Dal & Palak Cheela with Mint Curd Chutney',
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Cooked on cast-iron tava with 1/2 tsp cold-pressed oil',
       basePortion: '2 medium cheelas ({cheelaGrams}g batter) + 2 tbsp mint curd chutney',
       baseProtein: 18,
       baseCarbs: 26,
@@ -86,6 +100,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'mid_morning',
       title: 'Mid-Morning (11:00 AM)',
       dish: 'Soaked Walnuts (4 halves) + 1 glass Warm Cinnamon Infused Water',
+      image: 'https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Overnight water soaked, skins intact',
       basePortion: '20g walnuts + 250ml infused water',
       baseProtein: 3,
       baseCarbs: 4,
@@ -101,6 +117,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'lunch',
       title: 'Lunch (1:30 PM)',
       dish: 'Multigrain Roti (Jowar+Methi) + Yellow Moong Dal + Low Fat Paneer Bhurji + Raw Cucumber Salad',
+      image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Freshly ground flour, salt-controlled dal tadka',
       basePortion: '2 small rotis + 1 bowl dal + {paneerGrams}g paneer + 1 large bowl cucumber & radish slices',
       baseProtein: 22,
       baseCarbs: 48,
@@ -116,6 +134,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'evening_snack',
       title: 'Evening Snack (5:00 PM)',
       dish: 'Sprouted Green Moong & Lemon Chaat + Green Tea (unsweetened)',
+      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Raw organic sprouted moong, lemon dressing',
       basePortion: '{sproutGrams}g sprouted moong tossed with chopped onions, tomato & lemon',
       baseProtein: 12,
       baseCarbs: 22,
@@ -131,6 +151,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'dinner',
       title: 'Dinner (8:00 PM)',
       dish: 'Lauki & Moong Dal Wholesome Porridge OR 1 Jowar Roti + Tofu/Palak Gravy + Cucumber Salad',
+      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Slow pressure-cooked, easy digestion formula',
       basePortion: '1.5 bowl lauki moong porridge ({tofuGrams}g tofu if opting for roti)',
       baseProtein: 15,
       baseCarbs: 42,
@@ -150,6 +172,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'breakfast',
       title: 'Breakfast (8:30 AM)',
       dish: 'Ragi & Oats Steamed Idli (3 pcs) + Vegetable Drumstick Sambar + Tomato Chutney',
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Steamed, zero oil formulation',
       basePortion: '3 idlis (no white rice) + 1 large bowl vegetable sambar + 1 tbsp tomato chutney',
       baseProtein: 16,
       baseCarbs: 36,
@@ -162,6 +186,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'mid_morning',
       title: 'Mid-Morning (11:00 AM)',
       dish: 'Tender Coconut Water (1 glass) OR Chaas with Curry Leaves',
+      image: 'https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Fresh cracked, unsweetened natural electrolytes',
       basePortion: '200ml fresh tender coconut water or spiced buttermilk',
       baseProtein: 2,
       baseCarbs: 8,
@@ -174,6 +200,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'lunch',
       title: 'Lunch (1:30 PM)',
       dish: 'Brown Rice (1 small cup) + Mixed Vegetable Sambar + Cabbage Thoran + Curd Katori',
+      image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Low-starch drained brown rice with fresh grated coconut thoran',
       basePortion: '1 cup cooked brown rice + 1.5 bowl sambar with lots of veggies + 1 bowl thoran + 1/2 cup curd',
       baseProtein: 18,
       baseCarbs: 55,
@@ -186,6 +214,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'evening_snack',
       title: 'Evening Snack (5:00 PM)',
       dish: 'Sundal (Boiled Chickpea or White Chana with Mustard & Grated Coconut)',
+      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Steamed legumes, tempered with curry leaves and mustard seeds',
       basePortion: '1 bowl ({sproutGrams}g sundal) + herbal black tea',
       baseProtein: 11,
       baseCarbs: 24,
@@ -198,6 +228,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'dinner',
       title: 'Dinner (8:00 PM)',
       dish: 'Vegetable & Oats Upma OR 2 Multigrain Dosas with Palak Kootu',
+      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Rolled oats roasted dry, steamed with carrots & french beans',
       basePortion: '1.5 bowl upma packed with carrots, beans and curry leaves',
       baseProtein: 14,
       baseCarbs: 44,
@@ -214,6 +246,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'breakfast',
       title: 'Breakfast (8:00 AM)',
       dish: '3 Egg Whites + 1 Whole Egg Scramble with Spinach & Mushrooms + 1 Multigrain Toast',
+      image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Olive oil spray, high bio-available egg albumin',
       basePortion: '4 eggs (3 whites, 1 yolk) + 1 toast + green tea',
       baseProtein: 26,
       baseCarbs: 18,
@@ -226,6 +260,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'mid_morning',
       title: 'Mid-Morning (11:00 AM)',
       dish: 'Spiced Buttermilk with Chia Seeds + 1 handful Roasted Chana',
+      image: 'https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Churned curd with roasted cumin, rock salt and soaked chia',
       basePortion: '250ml buttermilk + 1 tsp chia seeds + 20g roasted chana',
       baseProtein: 8,
       baseCarbs: 12,
@@ -238,6 +274,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'lunch',
       title: 'Lunch (1:30 PM)',
       dish: 'Grilled Paneer / Soya Chunks Tikka + Brown Rice (1 cup) + Steamed Broccoli & Carrot Medley',
+      image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Marinated in low-fat hung curd & tandoori spices, air-grilled',
       basePortion: '{paneerGrams}g grilled paneer/soya + 1 cup rice + 1 large bowl broccoli',
       baseProtein: 28,
       baseCarbs: 45,
@@ -250,6 +288,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'evening_snack',
       title: 'Evening Snack (5:00 PM)',
       dish: 'Boiled Egg White Chaat with Diced Onion, Tomatoes & Coriander',
+      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Hard boiled, tossed with chaat spices and lime juice',
       basePortion: '3 boiled egg whites sliced + chaat spices + black coffee',
       baseProtein: 14,
       baseCarbs: 4,
@@ -262,6 +302,8 @@ export const MEAL_TEMPLATES_CATALOG = {
       slot: 'dinner',
       title: 'Dinner (8:00 PM)',
       dish: 'Soya & Vegetable Soup + 1 Multigrain Roti with Palak Dal',
+      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80',
+      prepMethod: 'Slow simmered vegetable stock, protein-dense chunks',
       basePortion: '1 large bowl high-protein soup + 1 small roti with 1 bowl dal',
       baseProtein: 22,
       baseCarbs: 36,
@@ -275,30 +317,23 @@ export const MEAL_TEMPLATES_CATALOG = {
 
 /**
  * Recalculate dynamic meal portions and macro totals based on nutritionist fine-tuning
- * Exactly addresses voice note: "She needs 20 grams of protein, not 25 grams of protein.
- * She will enter it there and the changes will be shown to her."
  */
 export function recalculateMealPlan(conditionId, cuisineId, targetProteinG, targetCalories = 1500) {
   const key = `${conditionId}_${cuisineId}`;
   let template = MEAL_TEMPLATES_CATALOG[key] || MEAL_TEMPLATES_CATALOG['diabetic_north_indian'];
 
-  // Base protein reference in template is ~22g average per main meal
   const scaleFactor = Math.max(0.6, Math.min(1.8, targetProteinG / 22));
 
-  // Dynamic portion numbers based on target protein
   const paneerGrams = Math.round(50 * scaleFactor);
   const cheelaGrams = Math.round(110 * scaleFactor);
   const sproutGrams = Math.round(100 * scaleFactor);
   const tofuGrams = Math.round(75 * scaleFactor);
 
   const updatedMeals = template.map((meal) => {
-    // Scale protein and calories proportionally
     const scaledProtein = Math.round(meal.baseProtein * scaleFactor);
-    // Calories adjust based on protein difference (1g protein = 4 kcal)
     const calDelta = (scaledProtein - meal.baseProtein) * 4;
     const scaledCalories = Math.max(50, Math.round(meal.baseCalories + calDelta));
 
-    // Fill in dynamic portion descriptions
     const dynamicPortion = meal.basePortion
       .replace('{paneerGrams}', paneerGrams)
       .replace('{cheelaGrams}', cheelaGrams)
@@ -310,6 +345,8 @@ export function recalculateMealPlan(conditionId, cuisineId, targetProteinG, targ
       slot: meal.slot,
       title: meal.title,
       dish: meal.dish,
+      image: meal.image,
+      prepMethod: meal.prepMethod,
       portion: dynamicPortion,
       proteinG: scaledProtein,
       carbsG: meal.baseCarbs,
@@ -327,7 +364,7 @@ export function recalculateMealPlan(conditionId, cuisineId, targetProteinG, targ
 
   return {
     id: `plan_${Date.now()}`,
-    name: `Customized ${conditionId.toUpperCase()} Plan (${targetProteinG}g Target Protein)`,
+    name: `Daily Drop Customized ${conditionId.toUpperCase()} Care Plan (${targetProteinG}g Target Protein)`,
     conditionPreset: conditionId,
     cuisinePreset: cuisineId,
     targetCalories: totalCalories,
@@ -338,4 +375,3 @@ export function recalculateMealPlan(conditionId, cuisineId, targetProteinG, targ
     meals: updatedMeals,
   };
 }
-

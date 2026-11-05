@@ -8,6 +8,7 @@ import {
   Sparkles,
   ChevronDown
 } from 'lucide-react';
+import dailyDropLogo from '../assets/daily_drop_logo.png';
 
 export default function Header({ 
   currentRole, 
@@ -22,92 +23,90 @@ export default function Header({
 
   return (
     <header className="sticky top-0 z-50 glass-nav border-b border-brand-mint-border shadow-soft-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           
-          {/* Logo & Brand */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2.5">
+          {/* Official Daily Drop Logo & Brand Banner */}
+          <div className="flex items-center space-x-3 cursor-pointer shrink-0">
+            <div className="flex items-center gap-3">
               <img 
-                src="/daily_drop_logo.png" 
-                alt="Daily Drop" 
-                className="h-9 w-auto object-contain"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.style.display = 'none';
-                }}
+                src={dailyDropLogo} 
+                alt="Daily Drop Nutrition" 
+                className="h-10 sm:h-12 w-auto object-contain transition-transform hover:scale-[1.02]"
               />
-              <div className="border-l border-brand-mint-border pl-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-base text-brand-forest tracking-tight">
-                    Nutrition
+              <div className="flex flex-col pl-3 border-l-2 border-brand-mint-border">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs sm:text-sm font-black tracking-wider uppercase text-brand-forest leading-tight">
+                    Nutrition & Care
                   </span>
-                  <span className="text-[10px] uppercase tracking-wider font-bold bg-brand-orange-light text-brand-orange px-2 py-0.5 rounded-full border border-brand-orange/30">
-                    Dietetics Care
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-brand-orange text-white px-2 py-0.5 rounded-full shadow-2xs">
+                    Clinical
                   </span>
                 </div>
-                <p className="text-[11px] text-brand-muted hidden sm:block font-medium">
-                  Part of the Daily Drop Food & Health Ecosystem
-                </p>
+                <span className="text-[11px] text-brand-muted font-semibold hidden md:block">
+                  Dietitians & Patient Health Platform
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Central Role / View Switcher */}
-          <div className="flex items-center bg-brand-mint/60 p-1 rounded-xl border border-brand-mint-border">
+          {/* Central Role / View Switcher (Desktop & Mobile) */}
+          <div className="flex items-center bg-brand-mint/80 p-1.5 rounded-2xl border border-brand-mint-border shadow-inner">
             <button
               onClick={() => setCurrentRole('nutritionist')}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                 currentRole === 'nutritionist'
                   ? 'bg-brand-forest text-white shadow-soft-sm'
-                  : 'text-brand-muted hover:text-brand-forest hover:bg-white/60'
+                  : 'text-brand-forest hover:bg-white/80'
               }`}
             >
-              <Stethoscope className={`w-3.5 h-3.5 ${currentRole === 'nutritionist' ? 'text-brand-orange' : 'text-brand-forest'}`} />
-              <span>Nutritionist Portal</span>
+              <Stethoscope className={`w-4 h-4 ${currentRole === 'nutritionist' ? 'text-brand-orange' : 'text-brand-forest'}`} />
+              <span className="hidden sm:inline">Nutritionist Portal</span>
+              <span className="sm:hidden">Portal</span>
             </button>
 
             <button
               onClick={() => setCurrentRole('client')}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                 currentRole === 'client'
                   ? 'bg-brand-forest text-white shadow-soft-sm'
-                  : 'text-brand-muted hover:text-brand-forest hover:bg-white/60'
+                  : 'text-brand-forest hover:bg-white/80'
               }`}
             >
-              <Smartphone className={`w-3.5 h-3.5 ${currentRole === 'client' ? 'text-brand-orange' : 'text-brand-forest'}`} />
-              <span>Client Mobile App</span>
+              <Smartphone className={`w-4 h-4 ${currentRole === 'client' ? 'text-brand-orange' : 'text-brand-forest'}`} />
+              <span className="hidden sm:inline">Patient Mobile App</span>
+              <span className="sm:hidden">App</span>
             </button>
 
             <button
               onClick={() => setCurrentRole('spec')}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                 currentRole === 'spec'
                   ? 'bg-brand-forest text-white shadow-soft-sm'
-                  : 'text-brand-muted hover:text-brand-forest hover:bg-white/60'
+                  : 'text-brand-forest hover:bg-white/80'
               }`}
             >
-              <FileText className={`w-3.5 h-3.5 ${currentRole === 'spec' ? 'text-brand-orange' : 'text-brand-forest'}`} />
-              <span className="hidden md:inline">Requirements Spec (PRD)</span>
-              <span className="md:hidden">PRD</span>
+              <FileText className={`w-4 h-4 ${currentRole === 'spec' ? 'text-brand-orange' : 'text-brand-forest'}`} />
+              <span className="hidden lg:inline">Requirements Spec (PRD)</span>
+              <span className="lg:hidden">PRD</span>
             </button>
           </div>
 
           {/* Client Selector & Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <div className="relative flex items-center">
               <label htmlFor="clientSelect" className="sr-only">Select Patient Case</label>
-              <div className="flex items-center gap-2 bg-white border border-brand-mint-border rounded-xl px-2.5 py-1.5 text-xs text-brand-dark shadow-2xs">
+              <div className="flex items-center gap-2 bg-white border border-brand-mint-border rounded-xl px-3 py-2 text-xs text-brand-dark shadow-2xs hover:border-brand-forest/40 transition-colors">
                 <img 
                   src={selectedClient.avatar} 
                   alt={selectedClient.name} 
-                  className="w-5 h-5 rounded-full object-cover border border-brand-mint-border"
+                  className="w-6 h-6 rounded-full object-cover border border-brand-mint-border"
                 />
                 <select
                   id="clientSelect"
                   value={selectedClientId}
                   onChange={(e) => setSelectedClientId(e.target.value)}
-                  className="bg-transparent font-semibold text-brand-dark pr-5 focus:outline-hidden cursor-pointer"
+                  className="bg-transparent font-bold text-brand-dark pr-4 focus:outline-hidden cursor-pointer"
                 >
                   {clients.map(c => (
                     <option key={c.id} value={c.id}>
@@ -121,16 +120,16 @@ export default function Header({
             <button
               onClick={onNewCaseClick}
               title="Take New Case (Client Onboarding)"
-              className="flex items-center gap-1.5 bg-brand-orange hover:bg-brand-orange-hover text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all shadow-soft-sm hover:shadow-glow-orange cursor-pointer"
+              className="flex items-center gap-1.5 bg-brand-orange hover:bg-brand-orange-hover text-white text-xs font-black px-4 py-2.5 rounded-xl transition-all shadow-soft-sm hover:shadow-glow-orange cursor-pointer"
             >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">Take New Case</span>
+              <PlusCircle className="w-4 h-4" />
+              <span className="hidden md:inline">Take New Case</span>
             </button>
 
             <button
               onClick={onResetData}
               title="Reset Demo Data"
-              className="p-2 text-brand-muted hover:text-brand-forest hover:bg-brand-mint rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-brand-muted hover:text-brand-forest hover:bg-brand-mint rounded-xl transition-colors cursor-pointer border border-transparent hover:border-brand-mint-border"
             >
               <RotateCcw className="w-4 h-4" />
             </button>

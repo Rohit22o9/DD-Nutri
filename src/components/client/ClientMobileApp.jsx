@@ -19,6 +19,8 @@ import {
   Minimize2,
   ChefHat
 } from 'lucide-react';
+import dailyDropLogoWhite from '../../assets/daily_drop_logo_white.png';
+import dailyDropLogo from '../../assets/daily_drop_logo.png';
 
 export default function ClientMobileApp({ 
   client, 
@@ -138,13 +140,9 @@ export default function ClientMobileApp({
               
               <div className="flex flex-col items-end">
                 <img 
-                  src="/daily_drop_logo_white.png" 
+                  src={dailyDropLogoWhite} 
                   alt="Daily Drop" 
-                  className="h-5 w-auto object-contain opacity-90 mb-1"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.style.display = 'none';
-                  }}
+                  className="h-6 w-auto object-contain mb-1"
                 />
                 <span className="text-[9px] bg-brand-orange text-white px-2 py-0.5 rounded-full font-bold">
                   Care Network

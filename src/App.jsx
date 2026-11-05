@@ -5,6 +5,7 @@ import ClientMobileApp from './components/client/ClientMobileApp';
 import SpecDocumentViewer from './components/docs/SpecDocumentViewer';
 import NewCaseModal from './components/nutritionist/NewCaseModal';
 import { initialClients } from './data/initialClients';
+import dailyDropLogo from './assets/daily_drop_logo.png';
 
 const STORAGE_KEY = 'daily_drop_nutrition_cases_v2';
 
@@ -168,15 +169,11 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img 
-              src="/daily_drop_logo.png" 
+              src={dailyDropLogo} 
               alt="Daily Drop" 
-              className="h-6 w-auto object-contain opacity-80"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.style.display = 'none';
-              }}
+              className="h-7 w-auto object-contain"
             />
-            <span className="font-bold text-brand-forest">Daily Drop Nutrition</span>
+            <span className="font-black text-brand-forest">Daily Drop Nutrition</span>
             <span className="text-brand-muted">• Clinical Care & Dietetics</span>
           </div>
 
