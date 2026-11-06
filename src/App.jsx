@@ -1,23 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import NutritionistDashboard from './components/nutritionist/NutritionistDashboard';
+import NutritionistLogin from './components/auth/NutritionistLogin';
+import AdminNavbar from './components/admin/AdminNavbar';
+import AdminSidebar from './components/admin/AdminSidebar';
+import AdminOverview from './components/admin/AdminOverview';
+import ClientCaseIntake from './components/nutritionist/ClientCaseIntake';
+import MealPlanBuilder from './components/nutritionist/MealPlanBuilder';
+import MealReviewFeed from './components/nutritionist/MealReviewFeed';
+import WeeklyReviewSection from './components/nutritionist/WeeklyReviewSection';
 import ClientMobileApp from './components/client/ClientMobileApp';
 import SpecDocumentViewer from './components/docs/SpecDocumentViewer';
 import NewCaseModal from './components/nutritionist/NewCaseModal';
 import { initialClients } from './data/initialClients';
-import dailyDropLogo from './assets/daily_drop_logo.png';
 
-const STORAGE_KEY = 'daily_drop_nutrition_cases_v2';
+const STORAGE_KEY = 'daily_drop_nutrition_cases_v3';
+const AUTH_KEY = 'daily_drop_nutrition_user_v1';
 
 export default function App() {
+  // Auth state (Admin Login Flow)
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem(AUTH_KEY);
+      if (savedUser) return JSON.parse(savedUser);
+    } catch (e) {
+      console.error(e);
+    }
+    // Default to Dr. Shalini so reviewers can see the app immediately or log out
+    return {
+      name: 'Dr. Shalini (Clinical RD)',
+      email: 'dr.shalini@dailydrop.today',
+      title: 'Lead Clinical Nutritionist',
+      badge: 'Daily Drop Partner Dietitian'
+    };
+  });
+
   const [clients, setClients] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        return JSON.parse(saved);
-      }
+      if (saved) return JSON.parse(saved);
     } catch (e) {
-      console.error('Failed to parse clients from localStorage', e);
+      console.error(e);
     }
     return initialClients;
   });
@@ -26,22 +47,42 @@ export default function App() {
     return initialClients[0]?.id || 'client_priya';
   });
 
-  const [currentRole, setCurrentRole] = useState('nutritionist'); // 'nutritionist', 'client', 'spec'
+  // Admin Navigation Tabs: 'overview', 'case', 'plan', 'review', 'weekly', 'spec'
+  const [currentTab, setCurrentTab] = useState('overview');
   const [isNewCaseOpen, setIsNewCaseOpen] = useState(false);
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
 
-  // Sync to local storage
+  // Sync clients to local storage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
     } catch (e) {
-      console.error('Failed to persist clients', e);
+      console.error(e);
     }
   }, [clients]);
+
+  // Sync auth user to local storage
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
+    } else {
+      localStorage.removeItem(AUTH_KEY);
+    }
+  }, [currentUser]);
 
   // Selected client object
   const currentClient = clients.find(c => c.id === selectedClientId) || clients[0];
 
   // Handlers
+  const handleLoginSuccess = (userData) => {
+    setCurrentUser(userData);
+    setCurrentTab('overview');
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+  };
+
   const handleUpdateClient = (updatedClient) => {
     setClients(prev => prev.map(c => c.id === updatedClient.id ? updatedClient : c));
   };
@@ -107,91 +148,124 @@ export default function App() {
   const handleAddClient = (newClient) => {
     setClients(prev => [newClient, ...prev]);
     setSelectedClientId(newClient.id);
-    setCurrentRole('nutritionist');
+    setCurrentTab('case');
   };
 
   const handleResetData = () => {
-    if (window.confirm('Reset all demo cases, meal plans, and photo logs back to default demo data?')) {
+    if (window.confirm('Reset all demo cases, meal plans, and photo reviews back to default demo data?')) {
       localStorage.removeItem(STORAGE_KEY);
       setClients(initialClients);
       setSelectedClientId(initialClients[0].id);
+      setCurrentTab('overview');
     }
   };
+
+  // If not authenticated, show Nutritionist Login screen
+  if (!currentUser) {
+    return <NutritionistLogin onLoginSuccess={handleLoginSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-brand-cream text-brand-dark flex flex-col font-sans">
       
-      {/* Universal Top Header with Official Daily Drop Brand */}
-      <Header
-        currentRole={currentRole}
-        setCurrentRole={setCurrentRole}
+      {/* Admin Navbar */}
+      <AdminNavbar
+        user={currentUser}
+        onLogout={handleLogout}
         clients={clients}
         selectedClientId={selectedClientId}
         setSelectedClientId={setSelectedClientId}
-        onNewCaseClick={() => setIsNewCaseOpen(true)}
+        onOnboardCustomerClick={() => setIsNewCaseOpen(true)}
         onResetData={handleResetData}
+        onToggleMobilePreview={() => setShowMobilePreview(!showMobilePreview)}
+        showMobilePreview={showMobilePreview}
       />
 
-      {/* Main Body depending on Active View */}
-      <main className="flex-1">
-        {currentRole === 'nutritionist' && currentClient && (
-          <NutritionistDashboard
-            client={currentClient}
-            onUpdateClient={handleUpdateClient}
-            onUpdateMealPlan={handleUpdateMealPlan}
-            onAddFeedback={handleAddFeedback}
-            onAddWeeklyReview={handleAddWeeklyReview}
-            onOpenNewCase={() => setIsNewCaseOpen(true)}
-          />
+      {/* Main Admin Layout with Sidebar + Workspace */}
+      <div className="flex-1 flex max-w-[1600px] w-full mx-auto">
+        
+        {/* Sidebar */}
+        <AdminSidebar
+          currentTab={currentTab}
+          onTabChange={setCurrentTab}
+          pendingReviewCount={currentClient.mealLogs.filter(l => !l.feedback).length}
+        />
+
+        {/* Content Workspace Area */}
+        <main className="flex-1 p-6 lg:p-8 overflow-y-auto">
+          
+          {currentTab === 'overview' && (
+            <AdminOverview
+              user={currentUser}
+              clients={clients}
+              onNavigateTab={setCurrentTab}
+              onSelectClient={setSelectedClientId}
+              onOnboardNewCustomer={() => setIsNewCaseOpen(true)}
+            />
+          )}
+
+          {currentTab === 'case' && currentClient && (
+            <ClientCaseIntake
+              client={currentClient}
+              onUpdateClient={handleUpdateClient}
+              onOnboardNewCustomer={() => setIsNewCaseOpen(true)}
+            />
+          )}
+
+          {currentTab === 'plan' && currentClient && (
+            <MealPlanBuilder
+              client={currentClient}
+              onUpdateMealPlan={handleUpdateMealPlan}
+            />
+          )}
+
+          {currentTab === 'review' && currentClient && (
+            <MealReviewFeed
+              client={currentClient}
+              onAddFeedback={handleAddFeedback}
+            />
+          )}
+
+          {currentTab === 'weekly' && currentClient && (
+            <WeeklyReviewSection
+              client={currentClient}
+              onAddWeeklyReview={handleAddWeeklyReview}
+            />
+          )}
+
+          {currentTab === 'spec' && (
+            <SpecDocumentViewer />
+          )}
+
+        </main>
+
+        {/* Slide-out / Side Patient Mobile App Preview */}
+        {showMobilePreview && (
+          <aside className="w-[420px] bg-white border-l border-brand-mint-border p-4 shadow-soft-lg flex flex-col items-center shrink-0 animate-fade-in sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+            <div className="w-full flex items-center justify-between pb-3 border-b border-brand-mint-border mb-3 text-xs">
+              <span className="font-black text-brand-forest">Patient Mobile App View</span>
+              <button
+                onClick={() => setShowMobilePreview(false)}
+                className="text-[11px] font-bold text-brand-orange hover:underline cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+            <ClientMobileApp
+              client={currentClient}
+              onUploadMealPhoto={handleUploadMealPhoto}
+            />
+          </aside>
         )}
 
-        {currentRole === 'client' && currentClient && (
-          <ClientMobileApp
-            client={currentClient}
-            onUploadMealPhoto={handleUploadMealPhoto}
-          />
-        )}
+      </div>
 
-        {currentRole === 'spec' && (
-          <SpecDocumentViewer />
-        )}
-      </main>
-
-      {/* New Case (Onboarding Intake) Modal */}
+      {/* Onboard Customer & Take Case Modal */}
       <NewCaseModal
         isOpen={isNewCaseOpen}
         onClose={() => setIsNewCaseOpen(false)}
         onAddClient={handleAddClient}
       />
-
-      {/* Daily Drop Ecosystem Footer */}
-      <footer className="bg-white border-t border-brand-mint-border py-6 px-6 text-center text-xs text-brand-muted">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <img 
-              src={dailyDropLogo} 
-              alt="Daily Drop" 
-              className="h-7 w-auto object-contain"
-            />
-            <span className="font-black text-brand-forest">Daily Drop Nutrition</span>
-            <span className="text-brand-muted">• Clinical Care & Dietetics</span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-semibold text-brand-forest">
-            <span>Daily Drop Kitchen</span>
-            <span>•</span>
-            <span>Daily Drop Restaurant Partner</span>
-            <span>•</span>
-            <span>Daily Drop AI Bot</span>
-            <span>•</span>
-            <span className="text-brand-orange">Daily Drop Nutrition</span>
-          </div>
-
-          <p className="text-[11px] text-brand-muted">
-            &copy; 2026 Daily Drop. All rights reserved.
-          </p>
-        </div>
-      </footer>
 
     </div>
   );
